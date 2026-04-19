@@ -1,0 +1,1379 @@
+﻿<!doctype html>
+<html lang="id">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Panduan Kalkulus — Stewart Method (Readable)</title>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+			onload="
+				renderMathInElement(document.body, {
+					delimiters: [
+						{ left: '$$', right: '$$', display: true },
+						{ left: '$', right: '$', display: false },
+					],
+				})
+			"></script>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<style>
+			:root {
+				--ink: #1a1a1a;
+				--ink2: #444;
+				--ink3: #777;
+				--rule: #d0cfc8;
+				--bg: #fdfcf9;
+				--card: #ffffff;
+
+				/* Semantic Colors - Stewart Method */
+				--teal-bg: #e1f5ee;
+				--teal: #0f6e56;
+				--teal-border: #5dcaa5;
+
+				--amber-bg: #fff5e6;
+				--amber: #b86b00;
+				--amber-border: #ffb84d;
+
+				--coral-bg: #faece7;
+				--coral: #c84b31;
+				--coral-border: #f08a73;
+
+				--blue-bg: #e6f1fb;
+				--blue: #0c447c;
+				--blue-border: #378add;
+
+				--purple-bg: #eeedfe;
+				--purple: #3c3489;
+				--purple-border: #7f77dd;
+
+				--red-bg: #fcebeb;
+				--red: #791f1f;
+				--red-border: #e24b4a;
+
+				--green-bg: #eaf3de;
+				--green: #27500a;
+				--green-border: #639922;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--ink: #e8e6df;
+					--ink2: #b8b6ae;
+					--ink3: #888780;
+					--rule: #3a3936;
+					--bg: #1c1b18;
+					--card: #242320;
+
+					--teal-bg: #04342c;
+					--teal: #9fe1cb;
+					--teal-border: #0f6e56;
+
+					--amber-bg: #2d1a00;
+					--amber: #fac775;
+					--amber-border: #a35f00;
+
+					--coral-bg: #4a1b0c;
+					--coral: #f5c4b3;
+					--coral-border: #993c1d;
+
+					--blue-bg: #042c53;
+					--blue: #b5d4f4;
+					--blue-border: #185fa5;
+
+					--purple-bg: #26215c;
+					--purple: #cecbf6;
+					--purple-border: #534ab7;
+
+					--red-bg: #501313;
+					--red: #f7c1c1;
+					--red-border: #a32d2d;
+
+					--green-bg: #173404;
+					--green: #c0dd97;
+					--green-border: #3b6d11;
+				}
+			}
+
+			/* User-Friendly Typography & Layout */
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			html {
+				background: var(--bg);
+			}
+			body {
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+				font-size: 18px; /* Greatly Increased for readability */
+				line-height: 1.8; /* Looser line height */
+				color: var(--ink);
+				background: var(--bg);
+				max-width: 800px; /* Streamlined width for reading */
+				margin: 0 auto;
+				padding: 40px 24px 80px;
+				-webkit-font-smoothing: antialiased;
+			}
+
+			html {
+				scroll-behavior: smooth;
+			}
+
+			.anchor-target {
+				scroll-margin-top: 96px;
+			}
+
+			.card {
+				background: var(--card);
+				border: 1px solid var(--rule);
+				border-radius: 12px; /* Softer radius */
+				padding: 32px; /* More padding */
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+			}
+
+			.card-teal {
+				background: var(--teal-bg);
+				border-color: var(--teal-border);
+			}
+			.card-amber {
+				background: var(--amber-bg);
+				border-color: var(--amber-border);
+			}
+			.card-coral {
+				background: var(--coral-bg);
+				border-color: var(--coral-border);
+			}
+			.card-blue {
+				background: var(--blue-bg);
+				border-color: var(--blue-border);
+			}
+			.card-purple {
+				background: var(--purple-bg);
+				border-color: var(--purple-border);
+			}
+			.card-red {
+				background: var(--red-bg);
+				border-color: var(--red-border);
+			}
+			.card-green {
+				background: var(--green-bg);
+				border-color: var(--green-border);
+			}
+
+			.section-label {
+				font-size: 13px;
+				font-weight: 700;
+				letter-spacing: 1.5px;
+				text-transform: uppercase;
+				margin-bottom: 12px;
+				display: block;
+			}
+			.label-teal {
+				color: var(--teal);
+			}
+			.label-amber {
+				color: var(--amber);
+			}
+			.label-coral {
+				color: var(--coral);
+			}
+			.label-blue {
+				color: var(--blue);
+			}
+			.label-purple {
+				color: var(--purple);
+			}
+			.label-red {
+				color: var(--red);
+			}
+			.label-green {
+				color: var(--green);
+			}
+
+			h3 {
+				font-size: 22px;
+				font-weight: 700;
+				color: var(--ink);
+				margin-bottom: 16px;
+				line-height: 1.4;
+			}
+
+			p {
+				margin-bottom: 12px;
+			}
+			p:last-child {
+				margin-bottom: 0;
+			}
+
+			/* Math Styles enlarged */
+			.math-line {
+				background: color-mix(in srgb, var(--rule) 20%, transparent);
+				border-radius: 8px;
+				padding: 16px 20px;
+				margin: 16px 0;
+				font-size: 19px; /* Very clear code/math */
+				text-align: center;
+				overflow-x: auto;
+			}
+			.math-line-sm {
+				padding: 12px 16px;
+				margin: 12px 0;
+				font-size: 18px; /* Slightly smaller than main math line but still huge */
+			}
+
+			/* Make inline KaTeX larger naturally */
+			.katex {
+				font-size: 1.18em;
+			}
+
+			table.formula-table {
+				width: 100%;
+				border-collapse: collapse;
+				font-size: 17px;
+				margin-top: 16px;
+			}
+			table.formula-table th {
+				font-size: 14px;
+				font-weight: 700;
+				letter-spacing: 1px;
+				text-transform: uppercase;
+				color: var(--ink3);
+				border-bottom: 2px solid var(--rule);
+				padding: 12px;
+				text-align: left;
+			}
+			table.formula-table td {
+				padding: 14px 12px;
+				border-bottom: 1px solid color-mix(in srgb, var(--rule) 40%, transparent);
+				vertical-align: middle;
+			}
+			table.formula-table tr:last-child td {
+				border-bottom: none;
+			}
+			table.formula-table .rule-name {
+				font-weight: 700;
+				font-size: 16px;
+				color: var(--ink2);
+				white-space: nowrap;
+			}
+
+			.step-list {
+				list-style: none;
+				counter-reset: steps;
+			}
+			.step-list li {
+				counter-increment: steps;
+				padding-left: 36px;
+				position: relative;
+				margin-bottom: 12px;
+				font-size: 18px;
+			}
+			.step-list li::before {
+				content: counter(steps);
+				position: absolute;
+				left: 0;
+				top: 4px;
+				font-size: 13px;
+				font-weight: 700;
+				background: var(--ink2);
+				color: var(--card);
+				width: 24px;
+				height: 24px;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.check-list {
+				list-style: none;
+			}
+			.check-list li {
+				padding-left: 30px;
+				position: relative;
+				margin-bottom: 12px;
+				font-size: 18px;
+			}
+			.check-list li::before {
+				content: "□";
+				position: absolute;
+				left: 0;
+				font-size: 20px;
+				color: var(--ink2);
+			}
+			.check-list li.warn::before {
+				content: "△";
+				color: var(--coral);
+			}
+			.check-list li.key::before {
+				content: "◆";
+				font-size: 14px;
+				top: 6px;
+				color: var(--teal);
+			}
+
+			.sign-table {
+				width: 100%;
+				border-collapse: collapse;
+				font-size: 18px;
+				font-family: "Courier New", Courier, monospace;
+				margin-top: 12px;
+			}
+			.sign-table td,
+			.sign-table th {
+				border: 1px solid var(--rule);
+				padding: 10px 14px;
+				text-align: center;
+			}
+			.sign-table th {
+				background: color-mix(in srgb, var(--rule) 30%, transparent);
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+				font-size: 15px;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				color: var(--ink2);
+			}
+			.pos {
+				color: var(--teal);
+				font-weight: 700;
+			}
+			.neg {
+				color: var(--coral);
+				font-weight: 700;
+			}
+
+			.divider {
+				border: none;
+				border-top: 1px solid var(--rule);
+				margin: 24px 0;
+			}
+
+			.inline-badge {
+				display: inline-block;
+				font-size: 13px;
+				font-weight: 700;
+				letter-spacing: 0.5px;
+				padding: 4px 8px;
+				border-radius: 6px;
+				text-transform: uppercase;
+			}
+			.badge-red {
+				background: var(--red-bg);
+				color: var(--red);
+				border: 1px solid var(--red-border);
+			}
+			.badge-green {
+				background: var(--green-bg);
+				color: var(--green);
+				border: 1px solid var(--green-border);
+			}
+			.badge-amber {
+				background: var(--amber-bg);
+				color: var(--amber);
+				border: 1px solid var(--amber-border);
+			}
+
+			.highlight-box {
+				border-left: 6px solid;
+				padding: 16px 20px;
+				border-radius: 0 8px 8px 0;
+				font-size: 18px;
+				margin: 16px 0;
+			}
+			.hl-teal {
+				border-color: var(--teal-border);
+				background: var(--teal-bg);
+			}
+			.hl-amber {
+				border-color: var(--amber-border);
+				background: var(--amber-bg);
+			}
+			.hl-coral {
+				border-color: var(--coral-border);
+				background: var(--coral-bg);
+			}
+			.hl-purple {
+				border-color: var(--purple-border);
+				background: var(--purple-bg);
+			}
+
+			/* Graph styles */
+			.graph-container {
+				position: relative;
+				border: 1px solid var(--rule);
+				border-radius: 12px;
+				background: var(--card);
+				overflow: hidden;
+				margin-top: 16px;
+				margin-bottom: 24px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Make graph pop */
+			}
+
+			#interactive-graph {
+				display: block;
+				width: 100%;
+				height: auto;
+				cursor: crosshair;
+				user-select: none;
+			}
+
+			.graph-axes {
+				stroke: var(--ink3);
+				stroke-width: 1.5;
+			}
+			.graph-grid {
+				stroke: color-mix(in srgb, var(--rule) 40%, transparent);
+				stroke-width: 0.8;
+			}
+			.graph-text {
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+				font-size: 14px;
+				fill: var(--ink2);
+				font-weight: 600;
+			}
+
+			.graph-curve {
+				stroke: var(--teal);
+				stroke-width: 3.5;
+				fill: none;
+				stroke-linejoin: round;
+			}
+			.graph-asymptote {
+				stroke: var(--amber);
+				stroke-width: 2;
+				stroke-dasharray: 8 6;
+				opacity: 0.8;
+			}
+			.graph-critical {
+				fill: var(--amber);
+				stroke: var(--card);
+				stroke-width: 2;
+			}
+			.graph-intercept {
+				fill: var(--card);
+				stroke: var(--teal);
+				stroke-width: 2;
+			}
+
+			.graph-hover-line {
+				stroke: var(--coral);
+				stroke-width: 2;
+				stroke-dasharray: 6 6;
+				pointer-events: none;
+				opacity: 0;
+				transition: opacity 0.1s;
+			}
+			.graph-hover-point {
+				fill: var(--coral);
+				stroke: var(--card);
+				stroke-width: 3;
+				pointer-events: none;
+				opacity: 0;
+				transition: opacity 0.1s;
+			}
+
+			/* Tooltip */
+			.graph-tooltip {
+				position: absolute;
+				background: var(--ink);
+				color: var(--card);
+				padding: 10px 16px;
+				border-radius: 8px;
+				font-size: 15px;
+				font-weight: 500;
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+				pointer-events: none;
+				opacity: 0;
+				transition:
+					opacity 0.15s ease,
+					transform 0.1s ease;
+				transform: translate(-50%, -100%);
+				box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+				white-space: nowrap;
+				z-index: 10;
+			}
+			.graph-tooltip::after {
+				content: "";
+				position: absolute;
+				top: 100%;
+				left: 50%;
+				margin-left: -6px;
+				border-width: 6px;
+				border-style: solid;
+				border-color: var(--ink) transparent transparent transparent;
+			}
+		</style>
+	</head>
+	<body class="mx-auto max-w-[800px] bg-[var(--bg)] px-6 pb-20 pt-10 font-[Helvetica_Neue,Helvetica,Arial,sans-serif] text-[18px] leading-[1.8] text-[var(--ink)] antialiased">
+		<div class="mb-2 border-b-[3px] border-[var(--ink)] pb-3 text-[34px] font-bold tracking-[-0.5px] text-[var(--ink)]">Panduan UTS Kalkulus — Metode Stewart</div>
+		<div class="mb-8 text-[14px] font-semibold uppercase tracking-[1.5px] text-[var(--ink3)]">Early Transcendentals · Limit, Turunan, Grafik</div>
+		<nav
+			aria-label="Navigasi section"
+			class="sticky top-2 z-20 mb-5 rounded-xl border border-[var(--rule)] bg-[color-mix(in_srgb,var(--card)_85%,transparent)] p-3 backdrop-blur shadow-sm">
+			<div class="flex flex-wrap items-center gap-2.5">
+				<a
+					class="inline-flex rounded-full border border-[var(--rule)] bg-[var(--card)] px-3 py-2 text-sm font-bold tracking-[0.3px] text-[var(--ink2)] transition hover:-translate-y-[1px] hover:border-[var(--teal-border)] hover:text-[var(--teal)]"
+					href="#limit-kontinu"
+					>Limit</a
+				>
+				<a
+					class="inline-flex rounded-full border border-[var(--rule)] bg-[var(--card)] px-3 py-2 text-sm font-bold tracking-[0.3px] text-[var(--ink2)] transition hover:-translate-y-[1px] hover:border-[var(--blue-border)] hover:text-[var(--blue)]"
+					href="#turunan"
+					>Turunan</a
+				>
+				<a
+					class="inline-flex rounded-full border border-[var(--rule)] bg-[var(--card)] px-3 py-2 text-sm font-bold tracking-[0.3px] text-[var(--ink2)] transition hover:-translate-y-[1px] hover:border-[var(--blue-border)] hover:text-[var(--blue)]"
+					href="#identitas-trig"
+					>Trig</a
+				>
+				<a
+					class="inline-flex rounded-full border border-[var(--rule)] bg-[var(--card)] px-3 py-2 text-sm font-bold tracking-[0.3px] text-[var(--ink2)] transition hover:-translate-y-[1px] hover:border-[var(--purple-border)] hover:text-[var(--purple)]"
+					href="#garis-singgung"
+					>Singgung</a
+				>
+				<a
+					class="inline-flex rounded-full border border-[var(--rule)] bg-[var(--card)] px-3 py-2 text-sm font-bold tracking-[0.3px] text-[var(--ink2)] transition hover:-translate-y-[1px] hover:border-[var(--amber-border)] hover:text-[var(--amber)]"
+					href="#lhopital"
+					>L'Hopital</a
+				>
+				<a
+					class="inline-flex rounded-full border border-[var(--rule)] bg-[var(--card)] px-3 py-2 text-sm font-bold tracking-[0.3px] text-[var(--ink2)] transition hover:-translate-y-[1px] hover:border-[var(--green-border)] hover:text-[var(--green)]"
+					href="#konstruksi-grafik"
+					>Sketsa</a
+				>
+				<a
+					class="inline-flex rounded-full border border-[var(--rule)] bg-[var(--card)] px-3 py-2 text-sm font-bold tracking-[0.3px] text-[var(--ink2)] transition hover:-translate-y-[1px] hover:border-[var(--coral-border)] hover:text-[var(--coral)]"
+					href="#checklist-akhir"
+					>Checklist</a
+				>
+
+				<div class="relative group ml-auto">
+					<button
+						id="praktik-btn"
+						class="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-[var(--rule)] bg-[var(--card)] px-3 py-2 text-sm font-bold tracking-[0.3px] text-[var(--ink2)] transition hover:-translate-y-[1px] hover:border-[var(--blue-border)] hover:text-[var(--blue)]"
+						aria-haspopup="true"
+						aria-expanded="false">
+						Praktik
+						<span
+							id="praktik-icon"
+							class="text-xs transition-transform"
+							>▼</span
+						>
+					</button>
+					<div
+						id="praktik-menu"
+						class="absolute right-0 top-full mt-2 hidden w-max min-w-[230px] rounded-lg border border-[var(--rule)] bg-[var(--card)] p-2 shadow-lg z-50">
+						<a
+							class="block rounded-lg px-2.5 py-2 text-sm font-semibold text-[var(--ink2)] transition hover:bg-[color-mix(in_srgb,var(--blue-bg)_65%,transparent)] hover:text-[var(--blue)]"
+							href="#praktik-lapangan"
+							>Praktik Interaktif</a
+						>
+						<a
+							class="block rounded-lg px-2.5 py-2 text-sm font-semibold text-[var(--ink2)] transition hover:bg-[color-mix(in_srgb,var(--blue-bg)_65%,transparent)] hover:text-[var(--blue)]"
+							href="#praktik-limit"
+							>Soal Limit dan Kontinuitas</a
+						>
+						<a
+							class="block rounded-lg px-2.5 py-2 text-sm font-semibold text-[var(--ink2)] transition hover:bg-[color-mix(in_srgb,var(--blue-bg)_65%,transparent)] hover:text-[var(--blue)]"
+							href="#praktik-turunan"
+							>Soal Aturan Turunan</a
+						>
+						<a
+							class="block rounded-lg px-2.5 py-2 text-sm font-semibold text-[var(--ink2)] transition hover:bg-[color-mix(in_srgb,var(--blue-bg)_65%,transparent)] hover:text-[var(--blue)]"
+							href="#praktik-singgung"
+							>Soal Garis Singgung dan Normal</a
+						>
+						<a
+							class="block rounded-lg px-2.5 py-2 text-sm font-semibold text-[var(--ink2)] transition hover:bg-[color-mix(in_srgb,var(--blue-bg)_65%,transparent)] hover:text-[var(--blue)]"
+							href="#praktik-lhopital"
+							>Soal L'Hopital</a
+						>
+						<a
+							class="block rounded-lg px-2.5 py-2 text-sm font-semibold text-[var(--ink2)] transition hover:bg-[color-mix(in_srgb,var(--blue-bg)_65%,transparent)] hover:text-[var(--blue)]"
+							href="#praktik-sketsa"
+							>Soal Analisis Fungsi</a
+						>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<div class="mb-8 flex flex-col gap-8">
+			<!-- CARD 1 -->
+			<div
+				id="limit-kontinu"
+				class="card card-teal anchor-target">
+				<span class="section-label label-teal">① Limit &amp; Kekontinuan</span>
+				<h3>Teknik Aljabar</h3>
+
+				<div class="highlight-box hl-teal"><strong>Substitusi gagal?</strong> Hasil $\frac{0}{0}$ atau $\frac{\infty}{\infty}$ → gunakan teknik di bawah.</div>
+
+				<p><strong>Faktorisasi:</strong></p>
+				<div class="math-line">$\lim_{x\to 2}\frac{x^2-4}{x-2} = \lim_{x\to 2}(x+2) = 4$</div>
+
+				<p><strong>Kali Sekawan:</strong></p>
+				<div class="math-line">$\lim_{x\to 0}\frac{\sqrt{x+4}-2}{x} \cdot \frac{\sqrt{x+4}+2}{\sqrt{x+4}+2} = \tfrac{1}{4}$</div>
+
+				<hr class="divider" />
+
+				<h3>Asimtot Tegak via Limit</h3>
+				<p>Garis $x = a$ adalah <strong>asimtot tegak</strong> jika arah grafik mendekati $\pm\infty$:</p>
+				<div class="math-line">$\lim_{x \to a^+} f(x) = \pm\infty \quad \text{atau} \quad \lim_{x \to a^-} f(x) = \pm\infty$</div>
+
+				<hr class="divider" />
+
+				<h3>Tiga Syarat Kontinu di $x = a$</h3>
+				<ol class="step-list">
+					<li>$\lim_{x\to a} f(x)$ <em>ada dan bernilai riil</em></li>
+					<li>$f(a)$ <em>terdefinisi</em></li>
+					<li>$\lim_{x\to a} f(x) = f(a)$</li>
+				</ol>
+			</div>
+
+			<!-- CARD 2 -->
+			<div
+				id="turunan"
+				class="card card-blue anchor-target">
+				<span class="section-label label-blue">② Turunan — Definisi &amp; Rumus</span>
+				<h3>Definisi Limit dari Turunan</h3>
+				<div class="math-line">$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$</div>
+				<ul class="step-list">
+					<li>Substitusi $f(x+h)$</li>
+					<li>Ekspansi &amp; sederhanakan</li>
+					<li>Bagi seluruh term dengan $h$</li>
+					<li>Hitung limit $h\to 0$</li>
+				</ul>
+
+				<hr class="divider" />
+
+				<h3>Aturan Diferensiasi Dasar</h3>
+				<table class="formula-table">
+					<thead>
+						<tr>
+							<th>Aturan</th>
+							<th>Formula</th>
+							<th>Contoh</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="rule-name">Power</td>
+							<td>$\frac{d}{dx}[x^n] = nx^{n-1}$</td>
+							<td>$(x^5)' = 5x^4$</td>
+						</tr>
+						<tr>
+							<td class="rule-name">Product</td>
+							<td>$(uv)' = u'v + uv'$</td>
+							<td>$(x^2\sin x)' = 2x\sin x + x^2\cos x$</td>
+						</tr>
+						<tr>
+							<td class="rule-name">Quotient</td>
+							<td>$\left(\frac{u}{v}\right)' = \frac{u'v - uv'}{v^2}$</td>
+							<td>Lo $\cdot$ d(Hi) − Hi $\cdot$ d(Lo)</td>
+						</tr>
+						<tr>
+							<td class="rule-name">Chain</td>
+							<td>$[f(g(x))]' = f'(g(x))\cdot g'(x)$</td>
+							<td>$(\sin(x^2))' = \cos(x^2)\cdot 2x$</td>
+						</tr>
+						<tr>
+							<td class="rule-name">Trig</td>
+							<td>$(\sin x)' = \cos x,\; (\cos x)' = -\sin x$</td>
+							<td>$(\tan x)' = \sec^2 x$</td>
+						</tr>
+						<tr>
+							<td class="rule-name">Exp/Log</td>
+							<td>$(e^x)' = e^x,\; (\ln x)' = \tfrac{1}{x}$</td>
+							<td>$(a^x)' = a^x \ln a$</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- CARD 2B -->
+			<div
+				id="identitas-trig"
+				class="card card-blue anchor-target">
+				<span class="section-label label-blue">Identitas Trigonometri Wajib Hafal</span>
+				<h3>Properti Dasar Trigonometri</h3>
+				<table class="formula-table">
+					<thead>
+						<tr>
+							<th>Kategori</th>
+							<th>Identitas</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="rule-name">Reciprocal</td>
+							<td>$\sin x=\frac{1}{\csc x},\; \cos x=\frac{1}{\sec x},\; \tan x=\frac{1}{\cot x}$</td>
+						</tr>
+						<tr>
+							<td class="rule-name">Quotient</td>
+							<td>$\tan x=\frac{\sin x}{\cos x},\; \cot x=\frac{\cos x}{\sin x}$</td>
+						</tr>
+						<tr>
+							<td class="rule-name">Pythagoras</td>
+							<td>$\sin^2x+\cos^2x=1,\; 1+\tan^2x=\sec^2x,\; 1+\cot^2x=\csc^2x$</td>
+						</tr>
+						<tr>
+							<td class="rule-name">Genap/Ganjil</td>
+							<td>$\sin(-x)=-\sin x,\; \cos(-x)=\cos x,\; \tan(-x)=-\tan x$</td>
+						</tr>
+						<tr>
+							<td class="rule-name">Periodik</td>
+							<td>$\sin(x+2\pi)=\sin x,\; \cos(x+2\pi)=\cos x,\; \tan(x+\pi)=\tan x$</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<hr class="divider" />
+
+				<h3>Rumus Jumlah dan Selisih Sudut</h3>
+				<div class="math-line">$\sin(\alpha\pm\beta)=\sin\alpha\cos\beta\pm\cos\alpha\sin\beta$</div>
+				<div class="math-line">$\cos(\alpha\pm\beta)=\cos\alpha\cos\beta\mp\sin\alpha\sin\beta$</div>
+				<div class="math-line">$\tan(\alpha\pm\beta)=\dfrac{\tan\alpha\pm\tan\beta}{1\mp\tan\alpha\tan\beta}$</div>
+
+				<hr class="divider" />
+
+				<h3>Double Angle Lengkap (Semua Bentuk Penting)</h3>
+				<table class="formula-table">
+					<thead>
+						<tr>
+							<th>Fungsi</th>
+							<th>Bentuk Lengkap</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="rule-name">$\sin 2x$</td>
+							<td>$\sin 2x = 2\sin x\cos x$</td>
+						</tr>
+						<tr>
+							<td class="rule-name">$\cos 2x$</td>
+							<td>$\cos 2x = \cos^2x-\sin^2x = 2\cos^2x-1 = 1-2\sin^2x$</td>
+						</tr>
+						<tr>
+							<td class="rule-name">$\tan 2x$</td>
+							<td>$\tan 2x = \dfrac{2\tan x}{1-\tan^2x} = \dfrac{2\sin x\cos x}{\cos^2x-\sin^2x}$</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div
+					class="highlight-box hl-amber"
+					style="font-size: 17px; margin-top: 16px">
+					<strong>Catatan domain penting:</strong> Rumus $\tan 2x=\dfrac{2\tan x}{1-\tan^2x}$ valid saat penyebut tidak nol, yaitu $1-\tan^2x\neq 0$.
+				</div>
+
+				<hr class="divider" />
+
+				<h3>Half Angle (Turunan dari $\cos 2x$)</h3>
+				<div class="math-line">$\sin^2x = \frac{1-\cos 2x}{2}, \qquad \cos^2x = \frac{1+\cos 2x}{2}$</div>
+				<div class="math-line">$\sin\frac{x}{2}=\pm\sqrt{\frac{1-\cos x}{2}}, \qquad \cos\frac{x}{2}=\pm\sqrt{\frac{1+\cos x}{2}}$</div>
+			</div>
+
+			<!-- CARD 3 -->
+			<div
+				id="garis-singgung"
+				class="card card-purple anchor-target">
+				<span class="section-label label-purple">③ Persamaan Garis Singgung</span>
+				<div class="math-line">$y - y_1 = m(x - x_1), \quad m = f'(x_1)$</div>
+				<ul class="step-list">
+					<li>Hitung $y_1 = f(x_1)$ → titik singgung $(x_1, y_1)$</li>
+					<li>Turunkan $f(x)$ untuk mendapat $f'(x)$</li>
+					<li>Substitusi $x_1$ ke $f'(x)$ → gradien $m$</li>
+					<li>Masukkan ke rumus point-slope</li>
+				</ul>
+				<div
+					class="highlight-box hl-purple"
+					style="margin-top: 16px; font-size: 18px">
+					<strong>Garis normal</strong> tegak lurus singgung: $m_\perp = -\dfrac{1}{f'(x_1)}$
+				</div>
+			</div>
+
+			<!-- CARD 4 -->
+			<div
+				id="lhopital"
+				class="card card-amber anchor-target">
+				<span class="section-label label-amber">④ Bentuk Tak Tentu (Aturan L'Hôpital)</span>
+				<div class="math-line">$\text{Bila } \frac{0}{0} \text{ atau } \frac{\infty}{\infty}: \quad \lim\frac{f}{g} = \lim\frac{f'}{g'}$</div>
+				<p>Penting: Turunkan pembilang &amp; penyebut secara <strong>terpisah</strong>. Ini bukan Quotient Rule!</p>
+
+				<table class="formula-table">
+					<thead>
+						<tr>
+							<th>Tipe</th>
+							<th>Strategi konversi</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>$0/0$ atau $\infty/\infty$</td>
+							<td><span class="badge-green inline-badge">Langsung</span> turunkan $f'(x)/g'(x)$</td>
+						</tr>
+						<tr>
+							<td>$0 \cdot \infty$</td>
+							<td>Ubah ke $\dfrac{0}{1/\infty}$ atau $\dfrac{\infty}{1/0}$, lalu L'Hôpital</td>
+						</tr>
+						<tr>
+							<td>$\infty - \infty$</td>
+							<td>Samakan penyebut atau rasionalisasi terlebih dulu</td>
+						</tr>
+						<tr>
+							<td>$1^\infty, 0^0, \infty^0$</td>
+							<td>Ambil $\ln L = \lim g\ln f$, ubah ke $0/0$</td>
+						</tr>
+					</tbody>
+				</table>
+				<div
+					class="highlight-box hl-amber"
+					style="margin-top: 16px; font-size: 18px">
+					<span class="badge-red inline-badge">Jebakan</span> Hanya boleh digunakan saat bentuk <em>benar-benar</em> $0/0$ atau $\infty/\infty$. Cek dulu sebelum turunkan!
+				</div>
+			</div>
+
+			<!-- CARD 5 -->
+			<div
+				id="konstruksi-grafik"
+				class="card card-green anchor-target">
+				<span class="section-label label-green">⑤ Konstruksi Grafik — The Stewart Steps</span>
+				<h3>Prosedur Analisis Sketsa Grafik</h3>
+				<ol class="step-list">
+					<li><strong>Domain:</strong> Cari titik $x$ yang terlarang (misal penyebut = 0).</li>
+					<li><strong>Intercepts:</strong> Hitung sumbu $y \Rightarrow f(0)$ dan sumbu $x \Rightarrow f(x)=0$.</li>
+					<li><strong>Asimtot:</strong> Periksa Asimtot Tegak ($\lim \to \pm\infty$) & Asimtot Horizontal ($\lim_{x\to\infty}$).</li>
+					<li><strong>Titik Kritis:</strong> Cari posisi di mana $f'(x)=0$ atau $f'$ tidak memiliki definisi limit abstrak.</li>
+					<li><strong>Arah Monoton:</strong> Bangun tabel tanda plus / minus (+) / (-) untuk interval $f'(x)$.</li>
+					<li><strong>Nilai Ekstrim:</strong> Letak Maksimum/minimum lokal ditentukan dari perubahan tanda turunan pertama $f'$.</li>
+					<li><strong>Titik Belok & Kecekungan:</strong> Hitung dari titik di mana turunan kedua $f''(x)=0$.</li>
+				</ol>
+
+				<hr class="divider" />
+
+				<h3>Tabel Tanda Turunan — Format Baku</h3>
+				<table class="sign-table">
+					<thead>
+						<tr>
+							<th>$x$</th>
+							<th>$\cdots$</th>
+							<th>$x_1$</th>
+							<th>$\cdots$</th>
+							<th>$x_2$</th>
+							<th>$\cdots$</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>$f'(x)$</td>
+							<td class="pos">+</td>
+							<td>0</td>
+							<td class="neg">−</td>
+							<td>0</td>
+							<td class="pos">+</td>
+						</tr>
+						<tr>
+							<td>$f(x)$</td>
+							<td>↗</td>
+							<td style="color: var(--teal)">maks</td>
+							<td>↘</td>
+							<td style="color: var(--coral)">min</td>
+							<td>↗</td>
+						</tr>
+						<tr>
+							<td style="font-family: Arial; font-size: 16px; font-weight: 700; color: var(--ink2)">$f''(x)$</td>
+							<td class="neg">−</td>
+							<td>—</td>
+							<td class="neg">−</td>
+							<td>—</td>
+							<td class="pos">+</td>
+						</tr>
+						<tr>
+							<td style="font-family: Arial; font-size: 16px; font-weight: 700; color: var(--ink2)">Cekung</td>
+							<td>⌢</td>
+							<td>—</td>
+							<td>⌢</td>
+							<td>—</td>
+							<td>⌣</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div style="margin-top: 20px">
+					<h3 style="margin-bottom: 12px">Uji Turunan Kedua</h3>
+					<div class="math-line math-line-sm">$f'(c)=0: \begin{cases} f''(c)>0 \Rightarrow \text{min lokal (cekung atas } \cup) \\ f''(c)<0 \Rightarrow \text{maks lokal (cekung bawah } \cap) \\ f''(c)=0 \Rightarrow \text{tidak dapat disimpulkan} \end{cases}$</div>
+				</div>
+			</div>
+
+			<!-- CARD 6 -->
+			<div
+				id="checklist-akhir"
+				class="card card-coral anchor-target">
+				<span class="section-label label-coral">Checklist Akhir</span>
+				<h3>Langkah Validasi Grafik</h3>
+				<ul class="check-list">
+					<li class="key">Domain: adakah nilai $x$ yang harus dihindari?</li>
+					<li>Apakah ada <em>hole</em> (faktor yang bisa dicoret)?</li>
+					<li class="warn">Asimtot tegak: ke mana grafik menuju $\pm\infty$?</li>
+					<li>Asimtot horizontal: ke mana ujung grafik ($x\to\pm\infty$)?</li>
+					<li class="key">Titik potong sumbu: sudah diplot?</li>
+					<li>Berapa titik kritis? Mana maks/min lokal?</li>
+					<li class="warn">Apakah $f'$ berubah tanda di setiap titik kritis?</li>
+					<li>Di mana grafik cekung atas (↑) vs cekung bawah (↓)?</li>
+					<li>Apakah ada titik belok (inflection point)?</li>
+					<li class="key">Apakah grafik kontinu, atau ada lompatan/celah?</li>
+					<li class="warn">Sudahkah garis asimtot digambar putus-putus?</li>
+				</ul>
+			</div>
+
+			<!-- CARD 7 -->
+			<div
+				id="praktik-lapangan"
+				class="card anchor-target">
+				<span class="section-label label-blue">Praktik Lapangan</span>
+				<h3>Analisis dan Pratinjau Interaktif: $f(x) = \frac{x^2 - 1}{x^2 - 4}$</h3>
+
+				<p>Grafik kalkulus memerlukan sintesa lengkap dari parameter berikut:</p>
+				<ul class="step-list">
+					<li><strong>Domain Terbatas:</strong> $x \neq \pm 2$ (Dikarenakan variabel $x^2 - 4 = 0$)</li>
+					<li><strong>Asimtot Tegak (VA):</strong> $x = -2$ dan $x = 2$</li>
+					<li><strong>Asimtot Horizontal (HA):</strong> $y = 1$</li>
+					<li><strong>Turunan Pertama:</strong> $f'(x) = \frac{-6x}{(x^2-4)^2}$ <br /><span style="font-size: 15px; color: var(--ink3)">Titik kritis maksimum eksis di kordinat $(0, 0.25)$</span></li>
+				</ul>
+
+				<!-- Interactive Graph Area -->
+				<div
+					class="graph-container"
+					id="graph-wrapper">
+					<svg
+						id="interactive-graph"
+						viewBox="0 0 600 400"
+						preserveAspectRatio="xMidYMid meet">
+						<!-- Grid and axes generated via JS -->
+					</svg>
+					<div
+						id="graph-tooltip"
+						class="graph-tooltip"></div>
+				</div>
+
+				<div
+					class="highlight-box hl-teal"
+					style="margin-top: 20px; font-size: 18px">
+					<strong>Ringkasan Sketsa:</strong><br />
+					Simetri genap ($f(-x)=f(x)$) → grafik simetri terhadap sumbu-$y$. Dua VA &amp; satu HA. Maks lokal di $(0, \tfrac{1}{4})$. Grafik tidak pernah menyentuh $y=1$.
+				</div>
+			</div>
+
+			<!-- CARD 8: LIMIT EXAMPLE -->
+			<div
+				id="praktik-limit"
+				class="card card-teal anchor-target">
+				<span class="section-label label-teal">Contoh Soal: Limit &amp; Kontinuitas</span>
+				<h3>Soal 1: Bentuk Tak Tentu (Faktorisasi)</h3>
+				<div class="math-line">$\lim_{x \to 2} \frac{x^2 + x - 6}{x - 2}$</div>
+				<ul class="step-list">
+					<li><strong>Langkah 1: Uji substitusi langsung.</strong><br />$\frac{2^2 + 2 - 6}{2 - 2} = \frac{0}{0}$. Ini bentuk tak tentu, jadi perlu aljabar lanjutan.</li>
+					<li><strong>Langkah 2: Faktorkan pembilang secara lengkap.</strong><br />$x^2 + x - 6 = (x+3)(x-2)$ karena $3 + (-2) = 1$ dan $3(-2)=-6$.</li>
+					<li>
+						<strong>Langkah 3: Sederhanakan domain yang sah.</strong><br />
+						$\frac{(x+3)(x-2)}{x-2} = x+3$, dengan syarat semula $x\neq 2$ (karena pembagian nol tidak boleh).
+					</li>
+					<li><strong>Langkah 4: Hitung limit fungsi hasil sederhananya.</strong><br />$\lim_{x \to 2}(x+3)=5$.</li>
+					<li><strong>Langkah 5: Interpretasi geometris.</strong><br />Nilai limit ada dan sama dengan 5, tetapi titik $x=2$ pada fungsi asal kosong (hole), bukan nilai fungsi.</li>
+				</ul>
+				<div
+					class="highlight-box hl-teal"
+					style="font-size: 16px; margin-top: 10px">
+					<strong>Tips:</strong> Celah (hole) pada grafik terjadi di titik $x=2$ dengan ordinat $y=5$.
+				</div>
+				<div
+					class="highlight-box hl-teal"
+					style="font-size: 16px; margin-top: 12px">
+					<strong>Soal 2 (Kontinuitas Titik):</strong><br />
+					Tentukan nilai $k$ agar fungsi kontinu di $x=2$:<br />
+					$ f(x)=\begin{cases} x^2-1, & x\neq 2 \\ k, & x=2 \end{cases}$<br />
+					1) Syarat kontinu: $\lim_{x\to 2}f(x)=f(2)$.<br />
+					2) $\lim_{x\to 2}(x^2-1)=3$.<br />
+					3) Maka harus $k=3$.
+				</div>
+			</div>
+
+			<!-- CARD 9: DERIVATIVE EXAMPLE -->
+			<div
+				id="praktik-turunan"
+				class="card card-blue anchor-target">
+				<span class="section-label label-blue">Contoh Soal: Aturan Turunan</span>
+				<h3>Soal 1: Product Rule &amp; Chain Rule Gabungan</h3>
+				<div class="math-line">$f(x) = x^3 \sin(2x)$</div>
+				<ul class="step-list">
+					<li><strong>Langkah 1: Pisahkan sebagai dua fungsi.</strong><br />Ambil $u=x^3$ dan $v=\sin(2x)$ agar cocok rumus $(uv)'=u'v+uv'$.</li>
+					<li><strong>Langkah 2: Turunkan $u$.</strong><br />$u'=3x^2$ (aturan pangkat).</li>
+					<li>
+						<strong>Langkah 3: Turunkan $v$ dengan chain rule.</strong><br />
+						$\frac{d}{dx}[\sin(2x)] = \cos(2x)\cdot\frac{d}{dx}(2x)=2\cos(2x)$.
+					</li>
+					<li>
+						<strong>Langkah 4: Substitusi ke product rule.</strong><br />
+						$f'(x)=u'v+uv'=(3x^2)\sin(2x)+x^3(2\cos(2x))$.
+					</li>
+					<li><strong>Langkah 5: Rapikan hasil akhir.</strong><br />$f'(x)=3x^2\sin(2x)+2x^3\cos(2x)$.</li>
+				</ul>
+				<div
+					class="highlight-box hl-blue"
+					style="font-size: 16px; margin-top: 12px">
+					<strong>Soal 2 (Quotient Rule):</strong><br />
+					$g(x)=\dfrac{x^2+1}{x-1}$<br />
+					1) Ambil $u=x^2+1$, $v=x-1$. Maka $u'=2x$, $v'=1$.<br />
+					2) $g'(x)=\dfrac{u'v-uv'}{v^2}=\dfrac{2x(x-1)-(x^2+1)}{(x-1)^2}$.<br />
+					3) Sederhanakan pembilang: $2x^2-2x-x^2-1=x^2-2x-1$.<br />
+					4) Hasil: $g'(x)=\dfrac{x^2-2x-1}{(x-1)^2}$.
+				</div>
+			</div>
+
+			<!-- CARD 10: TANGENT LINE EXAMPLE -->
+			<div
+				id="praktik-singgung"
+				class="card card-purple anchor-target">
+				<span class="section-label label-purple">Contoh Soal: Garis Singgung &amp; Normal</span>
+				<h3>Soal 1: Persamaan Garis pada Titik Tertentu</h3>
+				<p>Tentukan persamaan garis singgung dan normal pada kurva $y = x^2 - 4x + 5$ di $x = 1$.</p>
+				<ul class="step-list">
+					<li><strong>Langkah 1: Tentukan titik singgung.</strong><br />$x_1=1$, lalu $y_1=f(1)=1-4+5=2$. Titik: $(1,2)$.</li>
+					<li><strong>Langkah 2: Hitung gradien singgung.</strong><br />$f'(x)=2x-4 \Rightarrow m=f'(1)=-2$.</li>
+					<li>
+						<strong>Langkah 3: Susun garis singgung (point-slope).</strong><br />
+						$y-y_1=m(x-x_1) \Rightarrow y-2=-2(x-1)$.
+					</li>
+					<li><strong>Langkah 4: Ubah ke bentuk eksplisit.</strong><br />$y-2=-2x+2 \Rightarrow y=-2x+4$.</li>
+					<li><strong>Langkah 5: Hitung gradien normal.</strong><br />$m_{\perp}=-\frac{1}{m}=-\frac{1}{-2}=\frac12$.</li>
+					<li><strong>Langkah 6: Susun garis normal.</strong><br />$y-2=\frac12(x-1) \Rightarrow y=\frac12x+\frac32$.</li>
+					<li><strong>Langkah 7: Cek konsistensi cepat.</strong><br />Kedua garis harus melalui $(1,2)$; substitusi $x=1$ pada dua persamaan memberi $y=2$.</li>
+				</ul>
+				<div
+					class="highlight-box hl-purple"
+					style="font-size: 16px; margin-top: 12px">
+					<strong>Soal 2 (Tangent Horizontal):</strong><br />
+					Untuk $h(x)=x^3-3x$, cari titik dengan garis singgung horizontal.<br />
+					1) Syarat horizontal: $h'(x)=0$.<br />
+					2) $h'(x)=3x^2-3=3(x^2-1)=0 \Rightarrow x=\pm 1$.<br />
+					3) Titik: $(-1,2)$ dan $(1,-2)$.<br />
+					4) Karena $m=0$, garis singgungnya masing-masing $y=2$ dan $y=-2$.
+				</div>
+			</div>
+
+			<!-- CARD 11: L'HOPITAL EXAMPLE -->
+			<div
+				id="praktik-lhopital"
+				class="card card-amber anchor-target">
+				<span class="section-label label-amber">Contoh Soal: Aturan L'Hôpital</span>
+				<h3>Soal 1: Menerapkan Turunan Berulang Kali</h3>
+				<div class="math-line">$\lim_{x \to 0} \frac{1 - \cos x}{x^2}$</div>
+				<ul class="step-list">
+					<li><strong>Langkah 1: Verifikasi bentuk tak tentu.</strong><br />Substitusi $x=0$ memberi $\frac{1-1}{0}=\frac00$.</li>
+					<li>
+						<strong>Langkah 2: Terapkan L'Hôpital putaran pertama.</strong><br />
+						Pembilang: $(1-\cos x)'=\sin x$; penyebut: $(x^2)'=2x$.<br />
+						Limit berubah menjadi $\lim_{x\to0}\frac{\sin x}{2x}$.
+					</li>
+					<li><strong>Langkah 3: Cek lagi bentuknya.</strong><br />Substitusi ulang: $\frac{\sin0}{0}=\frac00$, jadi boleh L'Hôpital lagi.</li>
+					<li>
+						<strong>Langkah 4: Terapkan L'Hôpital putaran kedua.</strong><br />
+						Pembilang: $(\sin x)'=\cos x$; penyebut: $(2x)'=2$.<br />
+						Limit menjadi $\lim_{x\to0}\frac{\cos x}{2}$.
+					</li>
+					<li><strong>Langkah 5: Substitusi akhir.</strong><br />$\frac{\cos0}{2}=\frac12$.</li>
+				</ul>
+				<div
+					class="highlight-box hl-amber"
+					style="font-size: 16px; margin-top: 12px">
+					<strong>Soal 2 (Bentuk $\infty/\infty$):</strong><br />
+					$\lim_{x\to\infty}\dfrac{3x^2+1}{5x^2-2x}$<br />
+					1) Saat $x\to\infty$, pembilang dan penyebut sama-sama $\infty$ → boleh L'Hôpital.<br />
+					2) Turunkan: $\lim\dfrac{6x}{10x-2}$ (masih $\infty/\infty$).<br />
+					3) Turunkan lagi: $\lim\dfrac{6}{10}=\dfrac35$.<br />
+					4) Jadi nilai limit adalah $\dfrac35$.
+				</div>
+			</div>
+
+			<!-- CARD 12: SKETCHING EXAMPLE -->
+			<div
+				id="praktik-sketsa"
+				class="card card-green anchor-target">
+				<span class="section-label label-green">Contoh Soal: Analisis Fungsi</span>
+				<h3>Soal 1: Polinomial Sederhana (Intersep, Min/Maks, Kecekungan)</h3>
+				<p>Sketsa grafik $f(x) = x^3 - 3x^2$</p>
+				<ul class="step-list">
+					<li><strong>Langkah 1: Domain dan asimtot.</strong><br />Karena polinomial, domain semua real, tidak memiliki asimtot tegak/horizontal.</li>
+					<li>
+						<strong>Langkah 2: Titik potong sumbu.</strong><br />
+						$y$-intersep: $f(0)=0$ sehingga titik $(0,0)$.<br />
+						$x$-intersep: $x^3-3x^2=x^2(x-3)=0 \Rightarrow x=0$ (akar ganda), $x=3$.
+					</li>
+					<li>
+						<strong>Langkah 3: Turunan pertama untuk naik/turun.</strong><br />
+						$f'(x)=3x^2-6x=3x(x-2)$, titik kritis $x=0,2$.<br />
+						Uji tanda: naik di $(-\infty,0)$, turun di $(0,2)$, naik di $(2,\infty)$.
+					</li>
+					<li>
+						<strong>Langkah 4: Klasifikasi titik ekstrem.</strong><br />
+						Di $x=0$: naik ke turun, jadi maks lokal $f(0)=0$.<br />
+						Di $x=2$: turun ke naik, jadi min lokal $f(2)=-4$.
+					</li>
+					<li>
+						<strong>Langkah 5: Turunan kedua untuk cekung/belok.</strong><br />
+						$f''(x)=6x-6=6(x-1)$.<br />
+						Cekung bawah jika $x&lt;1$, cekung atas jika $x&gt;1$, maka titik belok di $x=1$ dengan $f(1)=-2$.
+					</li>
+					<li><strong>Langkah 6: Satukan semua informasi ke sketsa.</strong><br />Plot titik kunci $(0,0)$, $(2,-4)$, $(1,-2)$, $(3,0)$, lalu gambar kurva mengikuti pola naik-turun-naik dan perubahan kecekungan.</li>
+				</ul>
+				<div
+					class="highlight-box hl-green"
+					style="font-size: 16px; margin-top: 12px">
+					<strong>Soal 2 (Fungsi Rasional Ringkas):</strong><br />
+					Sketsa dasar $r(x)=\dfrac{x+1}{x-2}$.<br />
+					1) Domain: $x\neq2$ (asimtot tegak $x=2$).<br />
+					2) Derajat sama, rasio koefisien terdepan $1/1$, jadi asimtot horizontal $y=1$.<br />
+					3) Titik potong sumbu-$x$: $x+1=0\Rightarrow(-1,0)$. Titik potong sumbu-$y$: $r(0)=-\frac12$.<br />
+					4) Turunan: $r'(x)=\dfrac{(x-2)-(x+1)}{(x-2)^2}=\dfrac{-3}{(x-2)^2}&lt;0$, jadi selalu turun di tiap interval domain.<br />
+					5) Gambar dua cabang kurva yang mendekati $x=2$ dan $y=1$.
+				</div>
+			</div>
+		</div>
+
+		<div class="py-5 text-center text-[14px] tracking-[0.5px] text-[var(--ink3)]"><strong>Stewart, Calculus: Early Transcendentals</strong> — Panduan Referensi Visual</div>
+
+		<!-- Graph Engine Script -->
+		<script>
+			// Math Configuration
+			const mathBounds = { minX: -6, maxX: 6, minY: -5, maxY: 5 };
+
+			function f(x) {
+				if (Math.abs(x - 2) < 0.05 || Math.abs(x + 2) < 0.05) return null; // Discontinuity handler
+				return (x * x - 1) / (x * x - 4);
+			}
+
+			// SVG Elements
+			const svg = document.getElementById("interactive-graph");
+			const tooltip = document.getElementById("graph-tooltip");
+			const wrapper = document.getElementById("graph-wrapper");
+
+			const SVG_WIDTH = 600;
+			const SVG_HEIGHT = 400;
+
+			// Coordinate Mapping
+			function toSvgX(mathX) {
+				return ((mathX - mathBounds.minX) / (mathBounds.maxX - mathBounds.minX)) * SVG_WIDTH;
+			}
+			function toSvgY(mathY) {
+				return SVG_HEIGHT - ((mathY - mathBounds.minY) / (mathBounds.maxY - mathBounds.minY)) * SVG_HEIGHT;
+			}
+			function toMathX(svgX) {
+				return mathBounds.minX + (svgX / SVG_WIDTH) * (mathBounds.maxX - mathBounds.minX);
+			}
+
+			// Draw Grid and Axes
+			function drawBase() {
+				let elements = "";
+
+				// Grid Lines
+				for (let i = Math.ceil(mathBounds.minX); i <= Math.floor(mathBounds.maxX); i++) {
+					if (i !== 0) elements += `<line x1="${toSvgX(i)}" y1="0" x2="${toSvgX(i)}" y2="${SVG_HEIGHT}" class="graph-grid"/>`;
+				}
+				for (let i = Math.ceil(mathBounds.minY); i <= Math.floor(mathBounds.maxY); i++) {
+					if (i !== 0) elements += `<line x1="0" y1="${toSvgY(i)}" x2="${SVG_WIDTH}" y2="${toSvgY(i)}" class="graph-grid"/>`;
+				}
+
+				// Main Axes
+				const xAxisY = toSvgY(0);
+				const yAxisX = toSvgX(0);
+				elements += `<line x1="0" y1="${xAxisY}" x2="${SVG_WIDTH}" y2="${xAxisY}" class="graph-axes"/>`;
+				elements += `<line x1="${yAxisX}" y1="0" x2="${yAxisX}" y2="${SVG_HEIGHT}" class="graph-axes"/>`;
+
+				// Axis Labels
+				elements += `<text x="${SVG_WIDTH - 20}" y="${xAxisY + 20}" class="graph-text">x</text>`;
+				elements += `<text x="${yAxisX + 12}" y="20" class="graph-text">y</text>`;
+
+				// Asymptotes (Amber)
+				const va1 = toSvgX(-2),
+					va2 = toSvgX(2),
+					ha = toSvgY(1);
+				elements += `<line x1="${va1}" y1="0" x2="${va1}" y2="${SVG_HEIGHT}" class="graph-asymptote" vector-effect="non-scaling-stroke"/>`;
+				elements += `<line x1="${va2}" y1="0" x2="${va2}" y2="${SVG_HEIGHT}" class="graph-asymptote" vector-effect="non-scaling-stroke"/>`;
+				elements += `<line x1="0" y1="${ha}" x2="${SVG_WIDTH}" y2="${ha}" class="graph-asymptote" vector-effect="non-scaling-stroke"/>`;
+
+				return elements;
+			}
+
+			// Draw Function Curve
+			function drawCurve() {
+				const steps = 600;
+				const dx = (mathBounds.maxX - mathBounds.minX) / steps;
+
+				let pathData = "";
+				let isDrawing = false;
+
+				for (let i = 0; i <= steps; i++) {
+					const mx = mathBounds.minX + i * dx;
+					const my = f(mx);
+
+					if (my === null || my > mathBounds.maxY || my < mathBounds.minY) {
+						isDrawing = false;
+						continue;
+					}
+
+					const sx = toSvgX(mx);
+					const sy = toSvgY(my);
+
+					if (!isDrawing) {
+						pathData += ` M ${sx.toFixed(2)} ${sy.toFixed(2)}`;
+						isDrawing = true;
+					} else {
+						pathData += ` L ${sx.toFixed(2)} ${sy.toFixed(2)}`;
+					}
+				}
+
+				return `<path d="${pathData}" class="graph-curve"/>`;
+			}
+
+			// Highlight points
+			function drawPoints() {
+				let elements = "";
+				// Intercepts
+				elements += `<circle cx="${toSvgX(-1)}" cy="${toSvgY(0)}" r="4.5" class="graph-intercept"/>`;
+				elements += `<circle cx="${toSvgX(1)}" cy="${toSvgY(0)}" r="4.5" class="graph-intercept"/>`;
+				// Critical (Local Max)
+				elements += `<circle cx="${toSvgX(0)}" cy="${toSvgY(0.25)}" r="6" class="graph-critical"/>`;
+
+				return elements;
+			}
+
+			// Initialize Graph
+			function initGraph() {
+				const svgContent = drawBase() + drawCurve() + drawPoints();
+
+				// Add hover elements
+				const hoverLine = `<line id="hover-line" y1="0" y2="${SVG_HEIGHT}" class="graph-hover-line"/>`;
+				const hoverPoint = `<circle id="hover-point" r="6" class="graph-hover-point"/>`;
+
+				svg.innerHTML = svgContent + hoverLine + hoverPoint;
+			}
+
+			initGraph();
+
+			// Interactivity
+			const hoverLine = document.getElementById("hover-line");
+			const hoverPoint = document.getElementById("hover-point");
+
+			wrapper.addEventListener("mousemove", (e) => {
+				const rect = svg.getBoundingClientRect();
+				const sf = SVG_WIDTH / rect.width;
+				const sx = Math.max(0, Math.min(rect.width, e.clientX - rect.left)) * sf;
+
+				const mx = toMathX(sx);
+				const my = f(mx);
+
+				// Update Hover Line
+				hoverLine.setAttribute("x1", sx);
+				hoverLine.setAttribute("x2", sx);
+				hoverLine.style.opacity = "1";
+
+				// Tooltip offset
+				const tooltipX = (sx / SVG_WIDTH) * 100;
+
+				if (my === null || my > 10 || my < -10) {
+					hoverPoint.style.opacity = "0";
+
+					let state = "";
+					if (Math.abs(mx - 2) < 0.2 || Math.abs(mx + 2) < 0.2) {
+						state = "Asimtot Tegak ( Tak Terdefinisi )";
+					} else {
+						state = "Out of bounds";
+					}
+
+					tooltip.innerHTML = `x ≈ ${mx.toFixed(2)}<br><span style="color:var(--amber)">${state}</span>`;
+					tooltip.style.left = `calc(${tooltipX}%)`;
+					tooltip.style.top = `20px`;
+					tooltip.style.opacity = "1";
+					return;
+				}
+
+				const sy = toSvgY(my);
+
+				// Update Point
+				hoverPoint.setAttribute("cx", sx);
+				hoverPoint.setAttribute("cy", sy);
+				hoverPoint.style.opacity = "1";
+
+				// Update Tooltip
+				let limitInfo = "";
+				if (my > 3.5) limitInfo = "<br><span style='color:var(--coral)'>f(x) → +∞</span>";
+				if (my < -3.5) limitInfo = "<br><span style='color:var(--coral)'>f(x) → -∞</span>";
+
+				tooltip.innerHTML = `(${mx.toFixed(2)}, ${my.toFixed(2)})${limitInfo}`;
+
+				// Position tooltip
+				const renderSy = (sy / SVG_HEIGHT) * rect.height;
+
+				// Keep bounded
+				const renderY = Math.max(40, renderSy - 15);
+
+				tooltip.style.left = `calc(${tooltipX}%)`;
+				tooltip.style.top = `${renderY}px`;
+				tooltip.style.opacity = "1";
+			});
+
+			wrapper.addEventListener("mouseleave", () => {
+				hoverLine.style.opacity = "0";
+				hoverPoint.style.opacity = "0";
+				tooltip.style.opacity = "0";
+			});
+
+			// Dropdown Menu Handler
+			const praktikBtn = document.getElementById("praktik-btn");
+			const praktikMenu = document.getElementById("praktik-menu");
+			const praktikIcon = document.getElementById("praktik-icon");
+
+			// Toggle dropdown on button click
+			praktikBtn.addEventListener("click", (e) => {
+				e.stopPropagation();
+				const isHidden = praktikMenu.classList.contains("hidden");
+				if (isHidden) {
+					praktikMenu.classList.remove("hidden");
+					praktikBtn.setAttribute("aria-expanded", "true");
+					praktikIcon.style.transform = "rotate(180deg)";
+				} else {
+					praktikMenu.classList.add("hidden");
+					praktikBtn.setAttribute("aria-expanded", "false");
+					praktikIcon.style.transform = "rotate(0deg)";
+				}
+			});
+
+			// Close dropdown when clicking on a link
+			const menuLinks = praktikMenu.querySelectorAll("a");
+			menuLinks.forEach((link) => {
+				link.addEventListener("click", () => {
+					praktikMenu.classList.add("hidden");
+					praktikBtn.setAttribute("aria-expanded", "false");
+					praktikIcon.style.transform = "rotate(0deg)";
+				});
+			});
+
+			// Close dropdown when clicking outside
+			document.addEventListener("click", (e) => {
+				if (!praktikBtn.contains(e.target) && !praktikMenu.contains(e.target)) {
+					praktikMenu.classList.add("hidden");
+					praktikBtn.setAttribute("aria-expanded", "false");
+					praktikIcon.style.transform = "rotate(0deg)";
+				}
+			});
+		</script>
+	</body>
+</html>
